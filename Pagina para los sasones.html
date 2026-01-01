@@ -1,0 +1,837 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sazón Doña Ana </title>
+    <!-- Added favicon -->
+    <link rel="icon" type="image/png" href="gorro-de-cocinero.png">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            overflow-x: hidden;
+        }
+
+        /* Header Navigation */
+        header {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            background: linear-gradient(to bottom, rgba(0, 0, 0, 0.5), transparent);
+            padding: 1.5rem 5%;
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .logo img {
+            height: 60px;
+            width: 60px;
+            object-fit: contain;
+            background: white;
+            border-radius: 50%;
+            padding: 5px;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            color: white;
+            font-size: 1.8rem;
+            font-weight: bold;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: #FFEA00;
+        }
+
+        /* Added hamburger menu button styles */
+        .menu-toggle {
+            display: none;
+            flex-direction: column;
+            gap: 5px;
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 5px;
+        }
+
+        .menu-toggle span {
+            width: 30px;
+            height: 3px;
+            background: white;
+            transition: all 0.3s;
+            border-radius: 3px;
+        }
+
+        /* Mobile menu styles with dropdown animation */
+        @media (max-width: 768px) {
+            .menu-toggle {
+                display: flex;
+            }
+
+            .nav-links {
+                position: fixed;
+                top: 0;
+                left: 0;
+                bottom: 0;
+                width: 280px;
+                background: rgba(46, 125, 50, 0.98);
+                flex-direction: column;
+                padding: 5rem 2rem 2rem;
+                gap: 1.5rem;
+                transform: translateX(-100%);
+                opacity: 0;
+                visibility: hidden;
+                transition: all 0.4s ease;
+                box-shadow: 2px 0 10px rgba(0, 0, 0, 0.3);
+                overflow-y: auto;
+            }
+
+            /* Added logo to mobile menu drawer with separation */
+            .nav-links::before {
+                content: '';
+                position: absolute;
+                top: 1.5rem;
+                left: 50%;
+                transform: translateX(-50%);
+                width: 80px;
+                height: 80px;
+                background: url('logo_del_sazon_2.png') center center no-repeat;
+                background-size: contain;
+                border-radius: 50%;
+                margin-bottom: 2rem;
+            }
+
+            .nav-links li:first-child {
+                margin-top: 6rem;
+            }
+
+            .nav-links.active {
+                transform: translateX(0);
+                opacity: 1;
+                visibility: visible;
+            }
+
+            .nav-links a {
+                font-size: 1.2rem;
+                padding: 0.5rem 0;
+                border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+            }
+
+            .menu-toggle.active span:nth-child(1) {
+                transform: rotate(45deg) translate(8px, 8px);
+            }
+
+            .menu-toggle.active span:nth-child(2) {
+                opacity: 0;
+            }
+
+            .menu-toggle.active span:nth-child(3) {
+                transform: rotate(-45deg) translate(8px, -8px);
+            }
+        }
+
+        /* Added styles for very small mobile devices (up to 300px) */
+        @media (max-width: 425px) {
+            .hero-content{
+                height: 308px;
+            }
+
+            .logo {
+                gap: 0.5rem;
+                font-size: 1.2rem;
+            }
+
+            .carousel-container {
+                max-width: 273px;
+            }
+
+            .logo img {
+                height: 50px;
+                width: 50px;
+            }
+        }
+
+        /* Hero Section */
+        .hero {
+            position: relative;
+            height: 100vh;
+            background-image: url('portada de la pagina.jpg');
+            background-size: cover;
+            background-position: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            color: rgb(255, 255, 255);
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(3px);
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 1;
+            max-width: 800px;
+            padding: 0 2rem;
+        }
+
+        .hero h1 {
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+            text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.7);
+        }
+
+        .hero p {
+            font-size: 1.3rem;
+            margin-bottom: 2rem;
+            text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.7);
+        }
+
+        .cta-button {
+            background: #FFEA00;
+            color: #2E7D32;
+            padding: 1rem 2.5rem;
+            font-size: 1.1rem;
+            font-weight: bold;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .cta-button:hover {
+            background: #FFD700;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Recipes Section */
+        .recipes-section {
+            padding: 4rem 5%;
+            background: white;
+        }
+
+        .section-title {
+            text-align: center;
+            color: #2E7D32;
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .section-subtitle {
+            text-align: center;
+            color: #666;
+            font-size: 1.1rem;
+            margin-bottom: 3rem;
+        }
+
+        .carousel-container {
+            position: relative;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .carousel-wrapper {
+            overflow-x: auto;
+            scroll-behavior: smooth;
+            display: flex;
+            gap: 2rem;
+            padding: 1rem 0;
+            scrollbar-width: none;
+            -ms-overflow-style: none;
+        }
+
+        .carousel-wrapper::-webkit-scrollbar {
+            display: none;
+        }
+
+        .recipe-card {
+            flex: 0 0 300px;
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .recipe-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 8px 24px rgba(46, 125, 50, 0.2);
+        }
+
+        .recipe-card img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+
+        .recipe-content {
+            padding: 1.5rem;
+        }
+
+        .recipe-title {
+            color: #2E7D32;
+            font-size: 1.4rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .recipe-description {
+            color: #666;
+            line-height: 1.6;
+        }
+
+        /* Carousel Navigation Buttons */
+        .carousel-btn {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: #FFEA00;
+            color: #2E7D32;
+            border: none;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            font-size: 1.5rem;
+            cursor: pointer;
+            z-index: 10;
+            transition: all 0.3s;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+        }
+
+        .carousel-btn:hover {
+            background: #FFD700;
+            transform: translateY(-50%) scale(1.1);
+        }
+
+        .carousel-btn.prev {
+            left: -15px;
+        }
+
+        .carousel-btn.next {
+            right: -15px;
+        }
+
+        /* About Section */
+        .about-section {
+            padding: 4rem 5%;
+            background: #2E7D32;
+            color: white;
+            text-align: center;
+        }
+
+        .about-section h2 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .about-section p {
+            max-width: 800px;
+            margin: 0 auto;
+            font-size: 1.1rem;
+            line-height: 1.8;
+        }
+
+        /* Products Section */
+        .products-section {
+            padding: 4rem 5%;
+            background: #f9f9f9;
+        }
+
+        .products-grid {
+            display: flex;
+            gap: 2rem;
+            max-width: 1200px;
+            margin: 3rem auto 0;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .product-card {
+            background: white;
+            border-radius: 12px;
+            flex: 1;
+            min-width: 280px;
+            max-width: 350px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            cursor: pointer;
+            position: relative;
+            height: 436px;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        @media (hover: hover) {
+            .product-card:hover .product-overlay {
+                opacity: 1;
+            }
+        }
+
+        .product-card.active .product-overlay {
+            opacity: 1;
+        }
+
+        .product-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 8px 24px rgba(46, 125, 50, 0.2);
+        }
+
+        .product-image-container {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+            background: white;
+        }
+
+        .product-image-container img {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+        }
+
+        .product-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(46, 125, 50, 0.95);
+            color: white;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding: 2rem;
+            opacity: 0;
+            transition: opacity 0.4s ease;
+        }
+
+        .product-size {
+            color: #FFEA00;
+            font-size: 2.5rem;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+            text-align: center;
+        }
+
+        .product-label {
+            color: #2E7D32;
+            background: #FFEA00;
+            display: inline-block;
+            padding: 0.5rem 1.5rem;
+            border-radius: 25px;
+            font-weight: bold;
+            margin: 0 auto 1.5rem;
+            font-size: 0.9rem;
+        }
+
+        .product-description {
+            color: white;
+            line-height: 1.6;
+            margin-bottom: 1.5rem;
+            text-align: center;
+            font-size: 1rem;
+        }
+
+        .product-features {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .product-features li {
+            color: white;
+            padding: 0.5rem 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+            text-align: center;
+        }
+
+        .product-features li:last-child {
+            border-bottom: none;
+        }
+
+        /* WhatsApp Floating Button */
+        .whatsapp-float {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 60px;
+            height: 60px;
+            background: #25D366;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+            cursor: pointer;
+            z-index: 1000;
+            transition: all 0.3s;
+            text-decoration: none;
+        }
+
+        .whatsapp-float:hover {
+            transform: scale(1.1);
+            box-shadow: 0 6px 20px rgba(37, 211, 102, 0.5);
+        }
+
+        /* Updated WhatsApp icon to be properly centered and sized */
+        .whatsapp-float img {
+            width: 32px;
+            height: 32px;
+            filter: brightness(0) invert(1);
+        }
+
+        /* Footer */
+        footer {
+            background: #1a4d1a;
+            color: white;
+            padding: 2rem 5%;
+            text-align: center;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+
+            .recipe-card {
+                flex: 0 0 250px;
+            }
+
+            .carousel-btn {
+                width: 40px;
+                height: 40px;
+                font-size: 1.2rem;
+            }
+
+            .products-grid {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .product-card {
+                max-width: 100%;
+                height: 500px;
+            }
+
+            .whatsapp-float {
+                width: 50px;
+                height: 50px;
+                bottom: 20px;
+                right: 20px;
+            }
+
+            /* Updated WhatsApp icon size for mobile */
+            .whatsapp-float img {
+                width: 26px;
+                height: 26px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header Navigation -->
+    <header>
+        <nav>
+            <div class="logo">
+                <img src="logo_del_sazon_2.png" height="80px" alt="Sazón Doña Ana Logo">
+                <span>Sazón Doña Ana</span>
+            </div>
+            <!-- Added hamburger menu toggle button -->
+            <button class="menu-toggle" aria-label="Toggle menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+            <ul class="nav-links">
+                <li><a href="#inicio">Inicio</a></li>
+                <li><a href="#recetas">Recetas</a></li>
+                <li><a href="#productos">Productos</a></li>
+                <li><a href="#nosotros">Nosotros</a></li>
+                <li><a href="#contacto">Contacto</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- Hero Section -->
+    <section id="inicio" class="hero">
+        <div class="hero-content">
+            <h1>EL GUSTICO DE SU COCINA</h1>
+            <p>El sabor tradicional que tu cocina necesita. Especias auténticas para crear momentos inolvidables.</p>
+            <a href="#recetas" class="cta-button">Descubre Nuestras Recetas</a>
+        </div>
+    </section>
+
+    <!-- Recipes Section with Carousel -->
+    <section id="recetas" class="recipes-section">
+        <h2 class="section-title">Recetas Tradicionales</h2>
+        <p class="section-subtitle">Descubre deliciosas recetas preparadas con Sazón Doña Ana</p>
+        
+        <div class="carousel-container">
+            <button class="carousel-btn prev" onclick="scrollCarousel('left')">‹</button>
+            <div class="carousel-wrapper" id="carouselWrapper">
+                <div class="recipe-card">
+                    <img src="arroz con pollo.jpg" alt="Arroz con Pollo">
+                    <div class="recipe-content">
+                        <h3 class="recipe-title">Arroz con Pollo</h3>
+                        <p class="recipe-description">Un clásico irresistible con el toque especial de Sazón Doña Ana que realza cada grano de arroz.</p>
+                    </div>
+                </div>
+                
+                <div class="recipe-card">
+                    <img src="Carne Guisada.jpg" alt="Carne Guisada">
+                    <div class="recipe-content">
+                        <h3 class="recipe-title">Carne Guisada</h3>
+                        <p class="recipe-description">Carne tierna y jugosa, sazonada a la perfección con nuestras especias tradicionales.</p>
+                    </div>
+                </div>
+                
+                <div class="recipe-card">
+                    <img src="Sopa de Frijoles.jpg" alt="Sopa de Frijoles">
+                    <div class="recipe-content">
+                        <h3 class="recipe-title">Sopa de Frijoles</h3>
+                        <p class="recipe-description">Una sopa reconfortante llena de sabor casero y el amor de la abuela.</p>
+                    </div>
+                </div>
+                
+                <div class="recipe-card">
+                    <img src="Pollo Asado.jpg" alt="Pollo Asado">
+                    <div class="recipe-content">
+                        <h3 class="recipe-title">Pollo Asado</h3>
+                        <p class="recipe-description">Dorado y crujiente por fuera, jugoso por dentro. El secreto está en la sazón.</p>
+                    </div>
+                </div>
+                
+                <div class="recipe-card">
+                    <img src="Empanadas.jpg" alt="Empanadas">
+                    <div class="recipe-content">
+                        <h3 class="recipe-title">Empanadas Caseras</h3>
+                        <p class="recipe-description">Crujientes y sabrosas, rellenas con carne sazonada con Sazón Doña Ana.</p>
+                    </div>
+                </div>
+                
+                <div class="recipe-card">
+                    <img src="Sancocho.jpg" alt="Sancocho">
+                    <div class="recipe-content">
+                        <h3 class="recipe-title">Sancocho</h3>
+                        <p class="recipe-description">El platillo perfecto para compartir en familia, lleno de sabor y tradición.</p>
+                    </div>
+                </div>
+            </div>
+            <button class="carousel-btn next" onclick="scrollCarousel('right')">›</button>
+        </div>
+    </section>
+
+    <!-- Products Section -->
+    <section id="productos" class="products-section">
+        <h2 class="section-title">Nuestros Sazones</h2>
+        <p class="section-subtitle">Encuentra el tamaño perfecto para tu cocina</p>
+        
+        <div class="products-grid">
+            <div class="product-card" onclick="toggleOverlay(this)">
+                <div class="product-image-container" style="padding: 0;">
+                    <img src="d43df283-52a3-4257-b0a9-54eb63ba3a04.jpg" alt="Sazón Doña Ana 16oz">
+                    <div class="product-overlay">
+                        <div class="product-size">16 oz</div>
+                        <span class="product-label">PEQUEÑO</span>
+                        <p class="product-description">Perfecto para probar nuestro sazón o para cocinas pequeñas. Ideal para 15-20 comidas.</p>
+                        <ul class="product-features">
+                            <li>Rendimiento: 15-20 comidas</li>
+                            <li>Perfecto para probar</li>
+                            <li>Fácil de almacenar</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="product-card" onclick="toggleOverlay(this)">
+                <div class="product-image-container" style="padding: 0;">
+                    <img src="68404fb8-1de4-4a04-bc76-246fc369abf4.jpg" alt="Sazón Doña Ana 32oz">
+                    <div class="product-overlay">
+                        <div class="product-size">32 oz</div>
+                        <span class="product-label">MEDIANO</span>
+                        <p class="product-description">La opción más popular. Ideal para familias que cocinan regularmente. Rendimiento de 30-40 comidas.</p>
+                        <ul class="product-features">
+                            <li>Rendimiento de 30-40 comidas</li>
+                            <li>Mejor relación calidad-precio</li>
+                            <li>Ideal para familias</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="product-card" onclick="toggleOverlay(this)">
+                <div class="product-image-container" style="padding: 0;">
+                    <img src="a9acf32a-c1fa-41f9-9f0b-d92b7fc562a4.jpg" alt="Sazón Doña Ana Medio Galón">
+                    <div class="product-overlay">
+                        <div class="product-size">Medio Galón</div>
+                        <span class="product-label">GRANDE</span>
+                        <p class="product-description">Para los verdaderos amantes del sabor. Perfecto para familias grandes o negocios. Hasta 70-80 comidas.</p>
+                        <ul class="product-features">
+                            <li>Rendimiento: 70-80 comidas</li>
+                            <li>Máximo ahorro</li>
+                            <li>Para familias grandes</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="nosotros" class="about-section">
+        <h2>Nuestra Historia</h2>
+        <p>Desde hace más de 5 años, Sazón Doña Ana ha sido el secreto mejor guardado de las cocinas Dominicanas. Nuestras especias están cuidadosamente seleccionadas y mezcladas con la receta tradicional de Doña Ana, garantizando que cada platillo tenga ese sabor auténtico que todos recordamos de casa.</p>
+    </section>
+
+    <!-- Footer -->
+    <footer id="contacto">
+        <div style="margin-bottom: 20px;">
+            <p style="margin: 10px 0; font-size: 18px;">
+                <strong>Contáctanos:</strong>
+            </p>
+            <p style="margin: 8px 0;">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align: middle; margin-right: 8px;">
+                    <rect width="20" height="16" x="2" y="4" rx="2"/>
+                    <path d="m2 7 8.97 5.7a1.94 1.94 0 0 0 2.06 0L22 7"/>
+                </svg>
+                <a href="mailto:Yanselj6@gmail.com" style="color: #FFEA00; text-decoration: none;">Yanselj6@gmail.com</a>
+            </p>
+            <p style="margin: 8px 0;">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align: middle; margin-right: 8px;">
+                    <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/>
+                </svg>
+                <a href="tel:+18296620604" style="color: #FFEA00; text-decoration: none;">+1 (829) 662-0604</a>
+            </p>
+        </div>
+        <p>&copy; 2025 Sazón Doña Ana. Todos los derechos reservados.</p>
+        <p>El sabor que une familias.</p>
+    </footer>
+
+    <!-- WhatsApp Floating Button -->
+    <!-- Replaced SVG with image for better rendering -->
+    <a href="https://wa.me/+18296620604?text=Hola,%20me%20interesa%20Sazón%20Doña%20Ana" class="whatsapp-float" target="_blank" aria-label="Contáctanos por WhatsApp">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" alt="WhatsApp">
+    </a>
+
+    <script>
+        const menuToggle = document.querySelector('.menu-toggle');
+        const navLinks = document.querySelector('.nav-links');
+
+        menuToggle.addEventListener('click', () => {
+            menuToggle.classList.toggle('active');
+            navLinks.classList.toggle('active');
+        });
+
+        document.addEventListener('click', (e) => {
+            if (!navLinks.contains(e.target) && !menuToggle.contains(e.target) && navLinks.classList.contains('active')) {
+                menuToggle.classList.remove('active');
+                navLinks.classList.remove('active');
+            }
+        });
+
+        // Close menu when clicking on a link
+        navLinks.querySelectorAll('a').forEach(link => {
+            link.addEventListener('click', () => {
+                menuToggle.classList.remove('active');
+                navLinks.classList.remove('active');
+            });
+        });
+
+        function toggleFlip(card) {
+            card.classList.toggle('flipped');
+        }
+
+        function scrollCarousel(direction) {
+            const carousel = document.getElementById('carouselWrapper');
+            const scrollAmount = 340;
+            
+            if (direction === 'left') {
+                carousel.scrollBy({
+                    left: -scrollAmount,
+                    behavior: 'smooth'
+                });
+            } else {
+                carousel.scrollBy({
+                    left: scrollAmount,
+                    behavior: 'smooth'
+                });
+            }
+        }
+
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        function toggleOverlay(card) {
+            if (window.innerWidth <= 768) {
+                card.classList.toggle('active');
+            }
+        }
+
+        document.addEventListener('click', function(event) {
+            if (window.innerWidth <= 768) {
+                const productCards = document.querySelectorAll('.product-card');
+                productCards.forEach(card => {
+                    if (!card.contains(event.target)) {
+                        card.classList.remove('active');
+                    }
+                });
+            }
+        });
+    </script>
+</body>
+</html>
